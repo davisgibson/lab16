@@ -52,6 +52,7 @@ class myApp(object):
         global direction
         global rocket1
         global rocket1Fired
+        global player
         x1,y1,x2,y2 = drawpad.coords(enemy)
         px1,py1,px2,py2 = drawpad.coords(player)
         rx1,ry1,rx2,ry2 = drawpad.coords(rocket1)
@@ -59,9 +60,11 @@ class myApp(object):
         if rocket1Fired:
             if ry2 > 0:
                 drawpad.move(rocket1,0,-10)
-                
+                self.collisionDetect()
             if ry2 < 0:
-                x = (rx1 - px1) - 7
+                px1,py1,px2,py2 = drawpad.coords(player)
+                rx1,ry1,rx2,ry2 = drawpad.coords(rocket1)
+                x = (px1 - rx1) + 7
                 y = (py1 - ry1) + 3
                 if rockets > 0:
                     drawpad.move(rocket1, x, y)
@@ -116,16 +119,16 @@ class myApp(object):
         
         
     
-def collisionDetect(self):
-        global rocket1
-        global enemy
-        global hit
-        global drawpad
-        rx1,ry1,rx2,ry2 = drawpad.coords(missile)
-        ex1, ey1, ex2, ey2 = drawpad.coords(enemy)
-        if (rx1 > ex1 and rx2 < ex2) and (ry1 > ey1 and ry2 < ey2 ):
-            drawpad.delete(enemy)
-            drawpad.delete(rocket1)
+    def collisionDetect(self):
+            global rocket1
+            global enemy
+            global hit
+            global drawpad
+            rx1,ry1,rx2,ry2 = drawpad.coords(rocket1)
+            ex1, ey1, ex2, ey2 = drawpad.coords(enemy)
+            if (rx1 > ex1 and rx1 < ex2) and (ry1 > ey1 and ry1 < ey2 ):
+                drawpad.delete(enemy)
+                drawpad.delete(rocket1)
 
 app = myApp(root)
 root.mainloop()
